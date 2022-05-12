@@ -1,0 +1,12 @@
+body {
+    background-color: white;
+    max-width: 600px;
+    margin: auto;
+}
+
+article + article {
+    margin-top: 3rem;
+    border-top: 1px solid gray;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
