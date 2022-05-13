@@ -1,7 +1,7 @@
 <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script> 
 <header class="max-w-xl mx-auto mt-20 text-center">
     <h1 class="text-4xl">
-        Latest <span class="text-blue-500">Laravel From Scratch</span> News
+        Latest <span class="text-blue-500">Laravel Blog</span> News
     </h1>
 
     <div class="space-y-2 lg:space-y-0 lg:space-x-4 mt-4">
