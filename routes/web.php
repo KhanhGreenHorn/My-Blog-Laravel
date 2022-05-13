@@ -17,26 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('blog', [
-        'posts' => Post::latest()->get()
-    ]);
-});
+Route::get('/', [PostController::class,'index']);
 
-Route::get('/posts/{post}', function (Post $post) {
-    return view('post',[
-        'post' => $post
-    ]);
-});
+Route::get('/posts/{post}', [PostController::class,'show']);
 
 Route::get('/categories/{category}', function(Category $category) {
-    return view('blog',[
-        'posts' => $category->posts
-    ]);
-});
-
-Route::get('/authors/{author}', function(User $author) {
-    return view('blog',[
-        'posts' => $author->posts
+    return view('posts.blog',[
+        'posts' => $category->posts,
     ]);
 });

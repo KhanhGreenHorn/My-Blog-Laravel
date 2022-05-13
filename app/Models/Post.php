@@ -27,6 +27,30 @@ class Post extends Model
         'author'
     ];
 
+    public function scopeFilter($query, array $filters){
+
+        $query->when($filters['search'] ?? false, fn($query, $search) =>
+            $query->where(fn($query) =>
+                $query
+                    ->where('title','like','%'.$filters['search'].'%')
+                    ->orWhere('body','like','%'.$filters['search'].'%')
+            )
+        );
+        
+        $query->when($filters['category'] ?? false, fn($query, $category) =>
+            $query->whereHas('category', fn($query) =>
+                $query->where('name', $category)
+            )
+        );
+
+        $query->when($filters['author'] ?? false, fn($query, $author) =>
+            $query->whereHas('author', fn($query) =>
+                $query->where('name', $author)
+            )
+        );
+            
+    }
+
     public function category(){
         return $this->belongsTo(Category::class);
     }
