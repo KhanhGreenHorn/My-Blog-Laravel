@@ -12,11 +12,11 @@
         </button>
     </x-slot>
 
-    <x-dropdownitem href="/ & {{ http_build_query(request()->except('page'))}}">All</x-dropdownitem> 
+    <x-dropdownitem href="/">All</x-dropdownitem> 
 
     @foreach ($categories as $category)
     <x-dropdownitem 
-    href="/?category={{$category->name}}&{{ http_build_query(request()->except('page')) }}" >
+    href="/?category={{$category->name}}{{ http_build_query(request()->except('page')) }}" >
         {{$category->name}}
     </x-dropdownitem> 
     @endforeach
