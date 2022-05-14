@@ -1,9 +1,9 @@
 ## My Blog's features
 
-_ user authentication <br/>
-_ model factories for db seeding <br>
-_ view single post <br/>
-_ view posts by category/author <br/>
-_ search post by author and/or category <br/>
-_ post pagination <br/>
+_ User authentication <br/>
+_ Model factories for db seeding <br>
+_ View single post <br/>
+_ View posts by category/author <br/>
+_ Search post by author and/or category <br/>
+_ Post pagination <br/>
 
