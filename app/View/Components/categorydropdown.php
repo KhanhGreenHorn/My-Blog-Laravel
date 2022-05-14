@@ -24,10 +24,9 @@ class categorydropdown extends Component
      */
     public function render()
     {
-        
-        return view('components.category-dropdown',[
+        return view('components.categorydropdown', [
             'categories' => Category::all(),
-            'currentcategory' => Category::where('name',request('category'))->first()
+            'currentcategory' => Category::where('name', request('category'))->first()
         ]);
     }
 }
