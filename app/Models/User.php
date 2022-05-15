@@ -54,4 +54,8 @@ class User extends Authenticatable
     public function setPasswordAttribute($password){
         $this->attributes['password'] = bcrypt($password);  
     }
+
+    public function comments(){
+        return $this->hasMany(Comment::class)->orderBy('created_at','desc');
+    }
 }

@@ -14,12 +14,22 @@
                 </a>
             </div>
 
-            <div class="mt-8 md:mt-0">
-                <a href="/" class="text-xs font-bold uppercase">Home Page</a>
+            <div class="mt-8 md:mt-0 flex items-center">
+                @auth
+                    <span class="text-xs font-bold uppercase">Welcome, {{ auth()->user()->name }}</span>
 
-                <a href="#"
-                    class="transition-colors duration-300 bg-blue-500 hover:bg-blue-600 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">Subscribe
-                    for Updates</a>
+                    <form method="POST" action="/logout" class="text-xs font-semibold text-red-500 ml-6">
+                        @csrf
+                        <button type="submit">Log Out</button>
+                    </form>
+                @else
+                    <a href="/register" class="text-sm mr-5 font-bold uppercase">Register</a>
+                    <a href="/login" class="text-sm font-bold uppercase">Log In</a>
+                @endauth
+
+                <a href="#" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                    Subscribe for Updates
+                </a>
             </div>
         </nav>
 
@@ -69,6 +79,35 @@
                         {{$post->body}}
                     </div>
                 </div>
+
+                <section class="col-span-8 col-start-5 mt-10 space-y-6">
+                    @auth 
+                    <form method="POST" action="/posts/{{$post->title}}/comments" class="border border-gray-200 p-6 rounded-xl">
+                        @csrf
+                        <header class="flex items-center">
+                            <img src="/images/lary-avatar.svg" width="40" height="40" class="rounded-full">
+
+                            <h2 class="ml-4">Want to participate?</h2>
+                        </header>
+
+                        <div class="mt-6">
+                            <textarea name="body" class="w-full text-sm focus-outline-none focus:ring" rows="5" placeholder="Have things to say?..."></textarea>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="bg-blue-500 text-white uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-blue-600">Post</button>
+                        </div>
+                    </form>
+                    @else
+                    <a href="/register">Register</a> or <a href="/login">login</a> to leave a comment
+                    @endauth
+
+                    @foreach ($post->comments as $comment)
+                        <x-postcomment :comment="$comment"/>
+                    @endforeach
+
+                </section>
+
             </article>
         </main>
 
