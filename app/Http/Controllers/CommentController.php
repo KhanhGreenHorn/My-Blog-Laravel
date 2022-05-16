@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Post $post){
+    public function store(Post $post)
+    {
 
         request()->validate([
             'body' => 'required'
@@ -18,6 +19,13 @@ class CommentController extends Controller
             'user_id' => auth()->user()->id,
             'body' => request('body')
         ]);
+        return back();
+    }
+
+    public function destroy(Post $post, $id)
+    {
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
         return back();
     }
 }

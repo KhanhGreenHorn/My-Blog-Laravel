@@ -20,22 +20,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PostController::class,'index']);
+Route::get('/', [PostController::class, 'index']);
 
-Route::get('/posts/{post}', [PostController::class,'show']);
-Route::post('posts/{post:title}/comments',[CommentController::class,'store']);
+Route::get('/posts/{post}', [PostController::class, 'show']);
+Route::post('/posts/{post:title}/comments', [CommentController::class, 'store']);
+Route::delete('/posts/{post:title}/comments/{id}', [CommentController::class, 'destroy']);
 
-Route::get('/categories/{category}', function(Category $category) {
-    return view('posts.blog',[
+
+Route::get('/categories/{category}', function (Category $category) {
+    return view('posts.blog', [
         'posts' => $category->posts,
     ]);
 });
 
-Route::get('/register',[RegisterController::class, 'create'])->middleware('guest');
-Route::post('/register',[RegisterController::class, 'store'])->middleware('guest');
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
 
-Route::get('/login',[SessionsController::class, 'create'])->middleware('guest');
-Route::post('/login',[SessionsController::class, 'store'])->middleware('guest');
+Route::get('/login', [SessionsController::class, 'create'])->middleware('guest');
+Route::post('/login', [SessionsController::class, 'store'])->middleware('guest');
 
-Route::post('/logout',[SessionsController::class, 'destroy'])->middleware('auth');
-
+Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
