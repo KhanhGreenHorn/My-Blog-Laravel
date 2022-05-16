@@ -27,40 +27,53 @@ class Post extends Model
         'author'
     ];
 
-    public function scopeFilter($query, array $filters){
+    public function scopeFilter($query, array $filters)
+    {
 
-        $query->when($filters['search'] ?? false, fn($query, $search) =>
-            $query->where(fn($query) =>
+        $query->when(
+            $filters['search'] ?? false,
+            fn ($query, $search) =>
+            $query->where(
+                fn ($query) =>
                 $query
-                    ->where('title','like','%'.$filters['search'].'%')
-                    ->orWhere('body','like','%'.$filters['search'].'%')
+                    ->where('title', 'like', '%' . $filters['search'] . '%')
+                    ->orWhere('body', 'like', '%' . $filters['search'] . '%')
             )
         );
-        
-        $query->when($filters['category'] ?? false, fn($query, $category) =>
-            $query->whereHas('category', fn($query) =>
+
+        $query->when(
+            $filters['category'] ?? false,
+            fn ($query, $category) =>
+            $query->whereHas(
+                'category',
+                fn ($query) =>
                 $query->where('name', $category)
             )
         );
 
-        $query->when($filters['author'] ?? false, fn($query, $author) =>
-            $query->whereHas('author', fn($query) =>
+        $query->when(
+            $filters['author'] ?? false,
+            fn ($query, $author) =>
+            $query->whereHas(
+                'author',
+                fn ($query) =>
                 $query->where('name', $author)
             )
         );
-            
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function author(){
+    public function author()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function comments(){
-        return $this->hasMany(Comment::class)->orderBy('created_at','desc');
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
-
 }
