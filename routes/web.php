@@ -5,6 +5,7 @@ use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionsController;
+use App\Http\Middleware\IsAdmin;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -47,4 +48,5 @@ Route::post('/login', [SessionsController::class, 'store'])->middleware('guest')
 Route::post('/logout', [SessionsController::class, 'destroy'])->middleware('auth');
 
 //Admin's rights
-Route::post('admin/posts', [PostController::class, 'create']);
+Route::get('admin/posts', [PostController::class, 'create'])->middleware('isAdmin');
+Route::post('admin/posts', [PostController::class, 'store'])->middleware('isAdmin');

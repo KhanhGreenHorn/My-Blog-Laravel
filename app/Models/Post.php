@@ -14,7 +14,7 @@ class Post extends Model
         return 'title';
     }
 
-    protected $filable = [
+    protected $fillable = [
         'user_id',
         'category_id',
         'title',

@@ -27,7 +27,7 @@
                 <a href="/login" class="text-sm font-bold uppercase">Log In</a>
                 @endauth
 
-                <a href="#newsletter" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
+                <a scro href="#newsletter" class="bg-blue-500 ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-5">
                     Subscribe for Updates
                 </a>
             </div>
@@ -69,6 +69,7 @@
                         </a>
 
                         <x-categorybutton :post="$post" />
+                        <x-postadminoptions />
                     </div>
 
                     <h1 class="font-bold text-3xl lg:text-4xl mb-10">
