@@ -3,7 +3,9 @@
 @section('content')
 
 <section class="px-6 py-8">
-    <form method="POST" action="/admin/posts">
+    <h1 class="text-center">Create Post</h1>
+
+    <form method="POST" action="/user/posts">
         @csrf
 
         <div class="mb-6">

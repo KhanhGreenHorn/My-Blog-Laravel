@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Egulias\EmailValidator\Validation\EmailValidation;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -47,15 +48,18 @@ class User extends Authenticatable
         return 'name';
     }
 
-    public function posts(){
+    public function posts()
+    {
         return $this->hasMany(Post::class);
     }
 
-    public function setPasswordAttribute($password){
-        $this->attributes['password'] = bcrypt($password);  
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 
-    public function comments(){
-        return $this->hasMany(Comment::class)->orderBy('created_at','desc');
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->orderBy('created_at', 'desc');
     }
 }

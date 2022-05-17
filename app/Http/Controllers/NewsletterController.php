@@ -12,13 +12,7 @@ class NewsletterController extends Controller
 {
     public function __invoke(Newsletter $newsletter)
     {
-        request()->validate([
-            'email' => 'required|email'
-        ]);
-
-
-
-        $newsletter->subscribe(request('email'));
+        $newsletter->subscribe(auth()->user()->email);
         try {
         } catch (Exception $err) {
             throw ValidationException::withMessages([
