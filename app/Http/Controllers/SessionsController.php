@@ -13,10 +13,9 @@ class SessionsController extends Controller
 
     public function store(Request $request)
     {
-
         $attributes = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
         if (auth()->attempt($attributes)) {
@@ -32,6 +31,11 @@ class SessionsController extends Controller
     public function destroy()
     {
         auth()->logout();
+
+        request()->session()->invalidate();
+ 
+        request()->session()->regenerateToken();
+
         return redirect('/')->with('success', 'Goodbye!');
     }
 }

@@ -1,6 +1,5 @@
 @props(['post'])
-<div class="space-x-2">
-
+<div {{ $attributes(['class' => 'space-x-2']) }}>
     @if ($post->category->trashed())
     <a href="/?category={{$post->category->name}}" class="px-3 py-1 border border-gray-300 rounded-full text-gray-300 text-xs uppercase line-through">{{$post->category->name}}</a>
     @else

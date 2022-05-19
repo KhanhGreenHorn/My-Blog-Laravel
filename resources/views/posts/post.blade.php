@@ -35,7 +35,36 @@
                     Back to Posts
                 </a>
 
-                <x-categorybutton :post="$post" />
+                <div class="flex">
+                    <x-categorybutton :post="$post" class="mt-2 mr-2"/>
+                    @if (auth()->user()->id == $post->author->id || auth()->user()->name == 'khanh')
+                        <x-dropdown>
+                            <x-slot name='trigger'>
+                                <button class="text-xs font-bold uppercase text-left flex">
+                                    <svg class="transform -rotate-90 pointer-events-none" width="22" height="22" viewBox="0 0 22 22">
+                                        <g fill="none" fill-rule="evenodd">
+                                            <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z"></path>
+                                            <path fill="#222" d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </x-slot>
+                            @if(auth()->user()->id == $post->author->id)
+                            <x-dropdownitem href="#" x-data="{}" @click.prevent="document.querySelector('#editpost').submit()">Edit post</x-dropdownitem>
+                            <form id="editpost" method="POST" action="/posts/{{$post->id}}/edit" class="hidden">
+                                @csrf
+                                @method('GET')
+                            </form>
+                            @endif
+                            <x-dropdownitem href="#" x-data="{}" @click.prevent="document.querySelector('#deletepost').submit()" class="text-red-500">Delete post</x-dropdownitem>
+                            <form id="deletepost" method="POST" action="/posts/{{$post->id}}" class="hidden">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+
+                        </x-dropdown>
+                    @endif
+                </div>
             </div>
 
             <h1 class="font-bold text-3xl lg:text-4xl mb-10">
@@ -49,7 +78,7 @@
 
         <section class="col-span-8 col-start-5 mt-10 space-y-6">
             @auth
-            <form method="POST" action="/posts/{{ $post->title }}/comments" class="border border-gray-200 p-6 rounded-xl">
+            <form method="POST" action="/comments" class="border border-gray-200 p-6 rounded-xl">
                 @csrf
                 <header class="flex items-center">
                     <img src="/images/lary-avatar.svg" width="40" height="40" class="rounded-full">
@@ -60,6 +89,8 @@
                 <div class="mt-6">
                     <textarea name="body" class="w-full text-sm focus-outline-none focus:ring" rows="5" placeholder="Have things to say?..."></textarea>
                 </div>
+                
+                <input type="hidden" name="post_id" value="{{$post->id}}">
 
                 <div>
                     <button type="submit" class="bg-blue-500 text-white uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-blue-600">Post</button>

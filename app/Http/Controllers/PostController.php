@@ -22,10 +22,10 @@ class PostController extends Controller
     }
 
 
-    public function show(Post $post)
+    public function show($id)
     {
         return view('posts.post', [
-            'post' => $post,
+            'post' => Post::findOrFail($id),
         ]);
     }
 
@@ -47,6 +47,42 @@ class PostController extends Controller
 
         $user = auth()->user();
         $user->posts()->create($attributes);
+
+        return redirect('/');
+    }
+
+    public function edit($id){
+        return view('posts.update',[
+            'post' => Post::find($id)
+        ]);
+    }
+
+    public function update($id){
+
+        $attributes =  request()->validate([
+            'title' => 'required',
+            'note' => 'required',
+            'body' => 'required',
+        ]);
+
+        $post = Post::findOrFail($id);
+
+        $post->title = $attributes['title'];
+        $post->note = $attributes['note'];
+        $post->body = $attributes['body'];
+
+        $post->save();
+
+        return view('posts.post', [
+            'post' => $post,
+        ]);
+    }
+
+    public function destroy($id){
+
+        $post = Post::findOrFail($id);
+
+        $post->delete();
 
         return redirect('/');
     }

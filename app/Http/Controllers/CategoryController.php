@@ -15,7 +15,7 @@ class CategoryController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function create()
     {
         return view('category.create', [
             'categories' => Category::all(),

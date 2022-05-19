@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\EmailVerifycationController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
@@ -10,10 +11,15 @@ use App\Http\Middleware\IsAdmin;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,54 +32,36 @@ use Illuminate\Validation\ValidationException;
 |
 */
 
-//Email verification route
-Route::get('/email/verify', function () {
-    return view('register.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-
-    return redirect('/');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-
 //Authentication
-Route::get('/register', [RegisterController::class, 'create'])->middleware('guest');
-Route::post('/register', [RegisterController::class, 'store'])->middleware('guest');
+Route::get('/register', [RegisterController::class, 'create']);
+Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/login', [SessionsController::class, 'create'])->middleware('guest')->name('/login');
-Route::post('/login', [SessionsController::class, 'store'])->middleware('guest');
+Route::get('/login', [SessionsController::class, 'create'])->name('/login');
+Route::post('/login', [SessionsController::class, 'store']);
+
+//Email verification route
+Route::get('/email/verify',[EmailVerifycationController::class,'verifyEmailView'])
+    ->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}',[EmailVerifycationController::class,'sendEmail'])
+    ->middleware(['auth', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification',[EmailVerifycationController::class,'verifyEmail'])
+    ->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::middleware(['verified'])->group(function () {
     //Route to views
     Route::get('/', [PostController::class, 'index']);
 
-    Route::get('/posts/{post}', [PostController::class, 'show']);
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
+    Route::resource('/posts',PostController::class);
+    Route::resource('/comments',CommentController::class);
 
-    //user create comment
-    Route::post('/posts/{post:title}/comments', [CommentController::class, 'store']);
-    Route::delete('/posts/{post:title}/comments/{id}', [CommentController::class, 'destroy']);
+    //Admin category config
+    Route::get('/categories/{category}', [CategoryController::class, 'show']);
+    Route::get('/admin/categories', [CategoryController::class, 'create']);
+    Route::post('/admin/categories', [CategoryController::class, 'store']);
+    Route::delete('/admin/categories', [CategoryController::class, 'destroy']);
 
     //Third-parties mailing services
     Route::post('/newsletter', NewsletterController::class);
 
     Route::post('/logout', [SessionsController::class, 'destroy']);
-
-    //User creates posts
-    Route::get('user/posts', [PostController::class, 'create']);
-    Route::post('user/posts', [PostController::class, 'store']);
-
-    //Admin create category
-    Route::get('admin/categories', [CategoryController::class, 'create'])->middleware('isAdmin');
-    Route::post('admin/categories', [CategoryController::class, 'store'])->middleware('isAdmin');
-    Route::delete('admin/categories', [CategoryController::class, 'destroy'])->middleware('isAdmin');
-    //Route::resource(CategoryController::class)->middleware('isAdmin');
 });

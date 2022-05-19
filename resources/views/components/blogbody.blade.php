@@ -11,10 +11,5 @@
         @endforeach                
     </div>
 
-    {{-- <div class="lg:grid lg:grid-cols-3">
-        <x-postcard/>
-        <x-postcard/>
-        <x-postcard/> 
-    </div> --}}
     @else <p class="text-center">No posts yet. Please try again later</p>
 @endif

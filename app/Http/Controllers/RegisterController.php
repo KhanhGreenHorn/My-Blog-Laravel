@@ -9,7 +9,7 @@ class RegisterController extends Controller
 {
     public function create()
     {
-        return (view('register.create'));
+        return (view('auth.create'));
     }
 
     public function store(Request $request)
@@ -24,7 +24,7 @@ class RegisterController extends Controller
 
         auth()->login($user);
 
-        //session()->flash('success', 'User has been successfully created');
+        session()->flash('success', 'User has been successfully created');
 
         return redirect('/email/verify');
     }
