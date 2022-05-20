@@ -18,7 +18,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->name != 'khanh') {
+        if (auth()->user()->email != 'puchapu10@gmail.com') {
             abort(Response::HTTP_FORBIDDEN);
         }
 

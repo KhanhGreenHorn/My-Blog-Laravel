@@ -36,33 +36,33 @@
                 </a>
 
                 <div class="flex">
-                    <x-categorybutton :post="$post" class="mt-2 mr-2"/>
-                    @if (auth()->user()->id == $post->author->id || auth()->user()->name == 'khanh')
-                        <x-dropdown>
-                            <x-slot name='trigger'>
-                                <button class="text-xs font-bold uppercase text-left flex">
-                                    <svg class="transform -rotate-90 pointer-events-none" width="22" height="22" viewBox="0 0 22 22">
-                                        <g fill="none" fill-rule="evenodd">
-                                            <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z"></path>
-                                            <path fill="#222" d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
-                                        </g>
-                                    </svg>
-                                </button>
-                            </x-slot>
-                            @if(auth()->user()->id == $post->author->id)
-                            <x-dropdownitem href="#" x-data="{}" @click.prevent="document.querySelector('#editpost').submit()">Edit post</x-dropdownitem>
-                            <form id="editpost" method="POST" action="/posts/{{$post->id}}/edit" class="hidden">
-                                @csrf
-                                @method('GET')
-                            </form>
-                            @endif
-                            <x-dropdownitem href="#" x-data="{}" @click.prevent="document.querySelector('#deletepost').submit()" class="text-red-500">Delete post</x-dropdownitem>
-                            <form id="deletepost" method="POST" action="/posts/{{$post->id}}" class="hidden">
-                                @csrf
-                                @method('DELETE')
-                            </form>
+                    <x-categorybutton :post="$post" class="mt-2 mr-2" />
+                    @if (auth()->user()->id == $post->author->id || auth()->user()->email == 'puchapu10@gmail.com')
+                    <x-dropdown>
+                        <x-slot name='trigger'>
+                            <button class="text-xs font-bold uppercase text-left flex">
+                                <svg class="transform -rotate-90 pointer-events-none" width="22" height="22" viewBox="0 0 22 22">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z"></path>
+                                        <path fill="#222" d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
+                                    </g>
+                                </svg>
+                            </button>
+                        </x-slot>
+                        @if(auth()->user()->id == $post->author->id)
+                        <x-dropdownitem href="#" x-data="{}" @click.prevent="document.querySelector('#editpost').submit()">Edit post</x-dropdownitem>
+                        <form id="editpost" method="POST" action="/posts/{{$post->id}}/edit" class="hidden">
+                            @csrf
+                            @method('GET')
+                        </form>
+                        @endif
+                        <x-dropdownitem href="#" x-data="{}" @click.prevent="document.querySelector('#deletepost').submit()" class="text-red-500">Delete post</x-dropdownitem>
+                        <form id="deletepost" method="POST" action="/posts/{{$post->id}}" class="hidden">
+                            @csrf
+                            @method('DELETE')
+                        </form>
 
-                        </x-dropdown>
+                    </x-dropdown>
                     @endif
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <div class="mt-6">
                     <textarea name="body" class="w-full text-sm focus-outline-none focus:ring" rows="5" placeholder="Have things to say?..."></textarea>
                 </div>
-                
+
                 <input type="hidden" name="post_id" value="{{$post->id}}">
 
                 <div>

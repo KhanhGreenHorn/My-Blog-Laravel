@@ -20,7 +20,8 @@
                 @auth
                 <x-dropdown class="relative">
                     <x-slot name='trigger'>
-                        <button class="text-xs font-bold uppercase text-left flex"><p class="mt-1"> Welcome, {{auth()->user()->name}}</p> 
+                        <button class="text-xs font-bold uppercase text-left flex">
+                            <p class="mt-1"> Welcome, {{auth()->user()->name}}</p>
                             <svg class="transform -rotate-90 pointer-events-none" width="22" height="22" viewBox="0 0 22 22">
                                 <g fill="none" fill-rule="evenodd">
                                     <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z"></path>
@@ -31,9 +32,9 @@
                     </x-slot>
 
                     <x-dropdownitem href="/posts/create">Create post</x-dropdownitem>
-                    
-                    @if (auth()->user()->name == 'khanh')
-                        <x-dropdownitem href="/admin/categories">Manage category</x-dropdownitem>
+
+                    @if (auth()->user()->email == 'puchapu10@gmail.com')
+                    <x-dropdownitem href="/admin/categories">Manage category</x-dropdownitem>
                     @endif
 
                 </x-dropdown>

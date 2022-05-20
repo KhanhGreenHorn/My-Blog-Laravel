@@ -2,7 +2,7 @@
 
 @section('content')
 
-<section class="px-6 py-8 border rounded-xl" >
+<section class="px-6 py-8 border rounded-xl">
     <h1 class="text-center font-bold text-xl">Create Post</h1>
 
     <form method="POST" action="/posts">

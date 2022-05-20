@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
-class IsAdmin{
-    public function IsAdmin(){
-        return ( auth()->user()->name == 'khanh' );
+class IsAdmin
+{
+    public function IsAdmin()
+    {
+        return (auth()->user()->email == 'puchapu10@gmail.com');
     }
 }
