@@ -7,11 +7,20 @@ use App\Services\Newsletter;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use MailchimpMarketing\ApiClient;
+
 
 class NewsletterController extends Controller
 {
-    public function __invoke(Newsletter $newsletter)
+    public function __invoke(MailchimpNewsletter $newsletter)
     {
+
+        $client = new ApiClient;
+        $client->setConfig([
+            'apiKey' => config('services.mailchimp.key'),
+            'server' => 'us9'
+        ]);
+
         $newsletter->subscribe(auth()->user()->email);
         try {
         } catch (Exception $err) {
