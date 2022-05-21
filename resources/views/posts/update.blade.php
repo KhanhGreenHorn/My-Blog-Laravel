@@ -1,6 +1,12 @@
 @extends('layouts.layout')
 
 @section('content')
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.ckeditor').ckeditor();
+    });
+</script>
 
 <section class="px-6 py-8 border rounded-xl">
     <h1 class="text-center font-bold text-xl">Edit Post</h1>
@@ -37,7 +43,9 @@
                 Body
             </label>
 
-            <textarea class="border border-gray-400 p-2 w-full" name="body" id="body" style="height: 257px;" required>{{$post->body}}</textarea>
+            <div class="form-group">
+                <textarea class="ckeditor form-control" name="body">{{$post->body}}</textarea>
+            </div>
 
             @error('body')
             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
