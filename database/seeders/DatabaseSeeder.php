@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CategoriesPosts;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
@@ -39,25 +40,27 @@ class DatabaseSeeder extends Seeder
 
         $posts = array();
 
-        foreach($users as $user){
-            foreach($categories as $category){
+        foreach ($users as $user) {
+            foreach ($categories as $category) {
                 $post = Post::factory(1)->create([
-                    'category_id' => $category->id,
                     'user_id' => $user->id
                 ]);
-                $posts[] = $post[0]; 
+                $posts[] = $post[0];
+                $categoriesposts = CategoriesPosts::create([
+                    'category_id' => 1,
+                    'post_id' => $post[0]->id
+                ]);
             }
         };
 
-        foreach($posts as $post){
-            foreach($users as $user){
-                if( (int)($user->id) % 2 == 0) continue; //only half of users comment
+        foreach ($posts as $post) {
+            foreach ($users as $user) {
+                if ((int)($user->id) % 2 == 0) continue; //only half of users comment
                 Comment::factory(1)->create([
-                'user_id' => $user->id,
-                'post_id' => $post->id, 
+                    'user_id' => $user->id,
+                    'post_id' => $post->id,
                 ]);
             }
         };
-        
     }
 }

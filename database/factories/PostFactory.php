@@ -18,13 +18,12 @@ class PostFactory extends Factory
      * @return array<string, mixed>
      */
 
-     protected $model = Post::class;
+    protected $model = Post::class;
 
     public function definition()
     {
         return [
             'user_id' => User::factory(),
-            'category_id' => Category::factory(),
             'title' => $this->faker->unique()->sentence(),
             'body' => $this->faker->paragraph(),
             'note' => $this->faker->sentence()

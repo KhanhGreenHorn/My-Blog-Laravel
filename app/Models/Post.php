@@ -64,7 +64,7 @@ class Post extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class)->withTrashed();
+        return $this->belongsToMany(Category::class, 'categories_posts')->withTrashed();
     }
 
     public function author()
