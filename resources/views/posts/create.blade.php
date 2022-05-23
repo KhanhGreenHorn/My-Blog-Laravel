@@ -5,7 +5,7 @@
 <section class="px-6 py-8 border rounded-xl">
     <h1 class="text-center font-bold text-xl">Create Post</h1>
 
-    <form method="POST" action="/posts">
+    <form method="POST" action="/posts" onsubmit="getBody()">
         @csrf
 
         <div class="mb-6">
@@ -37,7 +37,8 @@
                 Body
             </label>
 
-            <textarea class="border border-gray-400 p-2 w-full" name="body" id="body" style="height: 257px;" required>{{ old('body') }}</textarea>
+            <input name="body" type="hidden">
+            <div id="editor"></div>
 
             @error('body')
             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
@@ -66,6 +67,29 @@
             </button>
         </div>
     </form>
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Write your content here...'
+        });
+
+        var form = document.querySelector('form');
+        console.log("form");
+
+        function getBody() {
+            console.log("login");
+
+            // Populate hidden form on submit
+            var about = document.querySelector('input[name=body]');
+            about.value = JSON.stringify(quill.getContents());
+
+            console.log("Submitted", $(form).serialize(), $(form).serializeArray());
+
+            // No back end to actually submit to!
+            alert('Open the console to see the submit data!')
+            return false;
+        };
+    </script>
 </section>
 
 @stop
