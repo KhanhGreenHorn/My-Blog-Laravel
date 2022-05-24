@@ -35,7 +35,7 @@
                     <x-dropdownitem href="/posts/create">Create post</x-dropdownitem>
 
                     @if (auth()->user()->email == 'puchapu10@gmail.com')
-                    <x-dropdownitem href="/admin/categories">Manage category</x-dropdownitem>
+                    <x-dropdownitem href="/categories/create">Manage category</x-dropdownitem>
                     @endif
 
                 </x-dropdown>

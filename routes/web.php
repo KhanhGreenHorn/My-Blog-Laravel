@@ -33,32 +33,30 @@ use Illuminate\Support\Str;
 */
 
 //Authentication
-Route::get('/register', [RegisterController::class, 'create']);
-Route::post('/register', [RegisterController::class, 'store']);
+Route::middleware(['guest'])->group(function () {
+    Route::get('/register', [RegisterController::class, 'create']);
+    Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/login', [SessionsController::class, 'create'])->name('/login');
-Route::post('/login', [SessionsController::class, 'store']);
+    Route::get('/login', [SessionsController::class, 'create'])->name('/login');
+    Route::post('/login', [SessionsController::class, 'store']);
+});
 
 //Email verification route
-Route::get('/email/verify',[EmailVerifycationController::class,'verifyEmailView'])
+Route::get('/email/verify', [EmailVerifycationController::class, 'verifyEmailView'])
     ->middleware('auth')->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}',[EmailVerifycationController::class,'sendEmail'])
+Route::get('/email/verify/{id}/{hash}', [EmailVerifycationController::class, 'sendEmail'])
     ->middleware(['auth', 'signed'])->name('verification.verify');
-Route::post('/email/verification-notification',[EmailVerifycationController::class,'verifyEmail'])
+Route::post('/email/verification-notification', [EmailVerifycationController::class, 'verifyEmail'])
     ->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::middleware(['verified'])->group(function () {
     //Route to views
     Route::get('/', [PostController::class, 'index']);
 
-    Route::resource('/posts',PostController::class);
-    Route::resource('/comments',CommentController::class);
-
-    //Admin category config
-    Route::get('/categories/{category}', [CategoryController::class, 'show']);
-    Route::get('/admin/categories', [CategoryController::class, 'create']);
-    Route::post('/admin/categories', [CategoryController::class, 'store']);
-    Route::delete('/admin/categories', [CategoryController::class, 'destroy']);
+    //resource routes
+    Route::resource('/posts', PostController::class);
+    Route::resource('/comments', CommentController::class);
+    Route::resource('/categories', CategoryController::class);
 
     //Third-parties mailing services
     Route::post('/newsletter', NewsletterController::class);

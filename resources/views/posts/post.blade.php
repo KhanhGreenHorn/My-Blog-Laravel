@@ -3,7 +3,11 @@
 <section>
     <article class="max-w-4xl mx-auto lg:grid lg:grid-cols-12 gap-x-10">
         <div class="col-span-4 lg:text-center lg:pt-14 mb-10">
-            <img src="/images/illustration-1.png" alt="" class="rounded-xl">
+            @if (isset($post->thumbnail))
+            <a href="/posts/{{$post->id}}"><img src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl"></a>
+            @else
+            <a href="/posts/{{$post->id}}"><img src="/images/lary-avatar.svg" alt="Blog Post illustration" class="rounded-xl"></a>
+            @endif
 
             <p class="mt-4 block text-gray-400 text-xs">
                 Published <time>{{ $post->created_at->diffForHumans() }}</time>
@@ -71,7 +75,7 @@
                 {{ $post->title }}
             </h1>
 
-            <div class="space-y-4 lg:text-lg leading-loose">
+            <div class="space-y-4 lg:text-lg leading-loose" style="overflow-wrap:break-word;">
                 {!! $post->body !!}
             </div>
         </div>

@@ -34,9 +34,10 @@ class CategoryController extends Controller
         return redirect('/');
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $category = Category::findOrFail($request['category_id']);
+        dd($id);
+        $category = Category::findOrFail($id);
         $category->delete();
         return redirect('/');
     }

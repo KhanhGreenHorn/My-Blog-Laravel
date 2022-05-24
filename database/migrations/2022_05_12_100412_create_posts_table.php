@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
 
+            $table->string('thumbnail')->nullable();
+
             $table->string('title')->unique();
             $table->longText('note');
             $table->longText('body');

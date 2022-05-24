@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Services\ClearImage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -40,24 +41,28 @@ class PostController extends Controller
     {
         $attributes =  $request->validate([
             'title' => 'required|unique:posts',
+            'thumbnail' => 'required|image',
             'note' => 'required',
             'body' => 'required',
             'category_id' => ['required', Rule::exists('categories', 'id')]
         ]);
 
+        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
         $user = auth()->user();
         $user->posts()->create($attributes);
 
         return redirect('/');
     }
 
-    public function edit($id){
-        return view('posts.update',[
+    public function edit($id)
+    {
+        return view('posts.update', [
             'post' => Post::find($id)
         ]);
     }
 
-    public function update($id){
+    public function update($id)
+    {
 
         $attributes =  request()->validate([
             'title' => 'required',
@@ -68,6 +73,9 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         $post->title = $attributes['title'];
+        if (request()->hasFile('thumbnail')) {
+            $post->thumbnail = request()->file('thumbnail')->store('thumbnails');
+        }
         $post->note = $attributes['note'];
         $post->body = $attributes['body'];
 
@@ -78,8 +86,8 @@ class PostController extends Controller
         ]);
     }
 
-    public function destroy($id){
-
+    public function destroy($id)
+    {
         $post = Post::findOrFail($id);
 
         $post->delete();

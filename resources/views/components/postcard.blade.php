@@ -2,7 +2,11 @@
 <article {{$attributes->merge(['class' => "transition-colors duration-300 hover:bg-gray-300 border border-black border-opacity-0 hover:border-opacity-5 rounded-xl"])}}>
     <div class="py-6 px-5">
         <div>
+            @if (isset($post->thumbnail))
+            <a href="/posts/{{$post->id}}"><img src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl"></a>
+            @else
             <a href="/posts/{{$post->id}}"><img src="/images/illustration-5.png" alt="Blog Post illustration" class="rounded-xl"></a>
+            @endif
         </div>
 
         <div class="mt-8 flex flex-col justify-between">

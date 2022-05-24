@@ -5,7 +5,7 @@
 <section class="px-6 py-8 border rounded-xl">
     <h1 class="text-center font-bold text-xl">Edit Post</h1>
 
-    <form method="POST" action="/posts/{{$post->id}}">
+    <form method="POST" action="/posts/{{$post->id}}" enctype="multipart/form-data" onsubmit="getBody()">
         @csrf
         @method('PUT')
         <div class="mb-6">
@@ -18,6 +18,23 @@
             @error('title')
             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
             @enderror
+        </div>
+
+        <div class="flex mt-6">
+            <div class="flex-1">
+                <div class="mb-1">
+                    <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="thumbnail">
+                        thumbnail
+                    </label>
+
+                    <input onchange="changeThumbnail()" class="border border-gray-400 p-2 w-full" type="file" name="thumbnail" value="{{ asset('storage/'. $post->thumbnail) }}" id="thumbnail">
+
+                    @error('thumbnail')
+                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+                <img id="updateimg" src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl mb-2" width="100">
+            </div>
         </div>
 
         <div class="mb-6">
@@ -73,7 +90,14 @@
             alert('Open the console to see the submit data!')
             return false;
         };
+
+        function changeThumbnail() {
+            var input = document.getElementById('thumbnail');
+            var img = document.getElementById('updateimg');
+            img.src = window.URL.createObjectURL(input.files[0]);
+        }
     </script>
+
 </section>
 
 @stop

@@ -5,7 +5,7 @@
 <section class="px-6 py-8 border rounded-xl">
     <h1 class="text-center font-bold text-xl">Create Post</h1>
 
-    <form method="POST" action="/posts" onsubmit="getBody()">
+    <form method="POST" action="/posts" enctype="multipart/form-data" onsubmit="getBody()">
         @csrf
 
         <div class="mb-6">
@@ -16,6 +16,18 @@
             <input class="border border-gray-400 p-2 w-full" type="text" name="title" id="title" value="{{ old('title') }}" required>
 
             @error('title')
+            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="mb-6">
+            <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="thumbnail">
+                thumbnail
+            </label>
+
+            <input class="border border-gray-400 p-2 w-full" type="file" name="thumbnail" id="thumbnail" required>
+
+            @error('thumbnail')
             <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
             @enderror
         </div>
