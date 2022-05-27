@@ -27,13 +27,16 @@
                         thumbnail
                     </label>
 
-                    <input onchange="changeThumbnail()" class="border border-gray-400 p-2 w-full" type="file" name="thumbnail" value="{{ asset('storage/'. $post->thumbnail) }}" id="thumbnail">
+                    <div class="flex">
+                        <input onchange="changeThumbnail()" class="border border-gray-400 p-2 w-full" type="file" name="thumbnail" id="thumbnail">
+                        <button type="button" onclick="clearImage()" class="bg-gray-500" id='clearbtn'>X</button>
+                    </div>
 
                     @error('thumbnail')
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
                 </div>
-                <img id="updateimg" src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl mb-2" width="100">
+                <img id="updateimg" class="rounded-xl mb-2" width="100" src="{{ asset('storage/'. $post->thumbnail) }}">
             </div>
         </div>
 
@@ -69,6 +72,13 @@
         </div>
     </form>
     <script>
+        img = document.getElementById('updateimg');
+        img.addEventListener("error", function(event) {
+            if (img.style.display != 'none') {
+                alert('unable to load image');
+            }
+        })
+
         var quill = new Quill('#editor', {
             theme: 'snow',
             placeholder: 'Write your content here...'
@@ -92,9 +102,22 @@
         };
 
         function changeThumbnail() {
+            var btn = document.getElementById('clearbtn');
+
             var input = document.getElementById('thumbnail');
             var img = document.getElementById('updateimg');
             img.src = window.URL.createObjectURL(input.files[0]);
+            btn.style.display = 'inline';
+        }
+
+        function clearImage() {
+            var input = document.getElementById('thumbnail');
+            var image = document.getElementById('updateimg');
+            var btn = document.getElementById('clearbtn');
+
+            image.src = '';
+            input.value = '';
+            btn.style.display = 'none';
         }
     </script>
 

@@ -20,16 +20,24 @@
             @enderror
         </div>
 
-        <div class="mb-6">
-            <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="thumbnail">
-                thumbnail
-            </label>
+        <div class="flex mt-6">
+            <div class="flex-1">
+                <div class="mb-1">
+                    <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="thumbnail">
+                        thumbnail
+                    </label>
 
-            <input class="border border-gray-400 p-2 w-full" type="file" name="thumbnail" id="thumbnail" required>
+                    <div class="flex">
+                        <input onchange="changeThumbnail()" class="border border-gray-400 p-2 w-full" type="file" name="thumbnail" id="thumbnail">
+                        <button type="button" onclick="clearImage()" class="bg-gray-500" style="display:none;" id='clearbtn'>X</button>
+                    </div>
 
-            @error('thumbnail')
-            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-            @enderror
+                    @error('thumbnail')
+                    <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+                <img id="createimg" class="rounded-xl mb-2" width="100">
+            </div>
         </div>
 
         <div class="mb-6">
@@ -80,13 +88,19 @@
         </div>
     </form>
     <script>
+        img = document.getElementById('createimg');
+        img.addEventListener("error", function(event) {
+            if (img.style.display != 'none') {
+                alert('unable to load image');
+            }
+        })
+
         var quill = new Quill('#editor', {
             theme: 'snow',
             placeholder: 'Write your content here...'
         });
 
         var form = document.querySelector('form');
-        console.log("form");
 
         function getBody() {
             console.log("login");
@@ -101,6 +115,29 @@
             alert('Open the console to see the submit data!')
             return false;
         };
+
+        function changeThumbnail() {
+            console.log('changed');
+
+            var btn = document.getElementById('clearbtn');
+            var input = document.getElementById('thumbnail');
+            var img = document.getElementById('createimg');
+
+            btn.style.display = 'inline';
+
+            img.src = window.URL.createObjectURL(input.files[0]);
+
+        }
+
+        function clearImage() {
+            var input = document.getElementById('thumbnail');
+            var image = document.getElementById('createimg');
+            var btn = document.getElementById('clearbtn');
+
+            image.src = '';
+            input.value = '';
+            btn.style.display = 'none';
+        }
     </script>
 </section>
 

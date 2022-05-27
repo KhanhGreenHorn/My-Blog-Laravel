@@ -43,65 +43,66 @@
 
     <hr class="solid p-2">
 
-    <form id="deleteform" action="/#" method="POST" class="flex" onsubmit="submitURL()">
+    <!-- <form id="deleteform" action="/#" method="POST" class="flex" onsubmit="submitURL()">
         @csrf
-        @method('DELETE')
-        <div class="mb-6">
-            <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="category_id">
-                Delete existing category
-            </label>
+        @method('DELETE') -->
+    <div class="mb-6">
+        <label class="block mb-2 uppercase font-bold text-xs text-gray-700" for="category_id">
+            Delete existing category
+        </label>
 
-            <select name="category_id" id="category_id">
-                @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ ucwords($category->name) }}</option>
-                @endforeach
-            </select>
+        <select name="category_id" id="category_id">
+            @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ ucwords($category->name) }}</option>
+            @endforeach
+        </select>
 
-            @error('category')
-            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-            @enderror
-        </div>
+        @error('category')
+        <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
+        @enderror
+    </div>
 
-        <div class="mb-6 mt-5">
-            <button onclick="submitURL()" class="bg-blue-400 text-white rounded py-2 px-4 hover:bg-blue-500">
-                Delete
-            </button>
-        </div>
-    </form>
+    <div class="mb-6 mt-5">
+        <button onclick="submitURL()" class="bg-blue-400 text-white rounded py-2 px-4 hover:bg-blue-500">
+            Delete
+        </button>
+    </div>
+    <!-- </form> -->
 
     <script>
-        function submitURL() {
-            var input = document.getElementById('category_id');
-            var form = document.getElementById('deleteform');
+        // function submitURL() {
+        //     var input = document.getElementById('category_id');
+        //     var form = document.getElementById('deleteform');
 
-            form.action = `/categories/${input.value}`;
-            form.submit();
-        }
-
-        // let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        // const submitURL = async () => {
-        //     let selected = document.getElementById('category_id').value;
-        //     let url = `http://localhost:8000/categories/${selected}`;
-        //     fetch(url, {
-        //         method: 'DELETE',
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             "X-CSRF-TOKEN": token,
-        //         },
-        //         credentials: "same-origin",
-        //         body: JSON.stringify({
-        //             name: 'Tushar',
-        //             number: '78987'
-        //         })
-        //     })
-        //     // .then((data) => {
-        //     //     window.location.href = '/';
-        //     // })
-        //     // .catch(function(error) {
-        //     //     console.log(error);
-        //     // });
+        //     form.action = `/categories/${input.value}`;
+        //     form.submit();
         // }
+
+        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const submitURL = async () => {
+            let selected = document.getElementById('category_id').value;
+            let url = `http://localhost:8000/categories/${selected}`;
+            const response = fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json",
+                    // "X-CSRF-TOKEN": token,
+                },
+                // credentials: "same-origin",
+                body: JSON.stringify({
+                    name: 'Tushar',
+                    number: '78987'
+                })
+            });
+            return response.JSON();
+            // .then((data) => {
+            //     window.location.href = '/';
+            // })
+            // .catch(function(error) {
+            //     console.log(error);
+            // });
+        }
     </script>
 </section>
 
