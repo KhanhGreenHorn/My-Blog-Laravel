@@ -6,7 +6,7 @@
             @if (isset($post->thumbnail))
             <a href="/posts/{{$post->id}}"><img src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl"></a>
             @else
-            <a href="/posts/{{$post->id}}"><img src="/images/lary-avatar.svg" alt="Blog Post illustration" class="rounded-xl"></a>
+            <a href="/posts/{{$post->id}}"><img src="/images/illustration-1.png" alt="Blog Post illustration" class="rounded-xl"></a>
             @endif
 
             <p class="mt-4 block text-gray-400 text-xs">

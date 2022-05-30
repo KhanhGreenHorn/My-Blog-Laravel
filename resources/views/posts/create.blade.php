@@ -88,11 +88,13 @@
         </div>
     </form>
     <script>
-        img = document.getElementById('createimg');
+        var input = document.getElementById('thumbnail');
+        var img = document.getElementById('createimg');
         img.addEventListener("error", function(event) {
             if (img.style.display != 'none') {
                 alert('unable to load image');
             }
+            input.value = "";
         })
 
         var quill = new Quill('#editor', {
@@ -120,8 +122,6 @@
             console.log('changed');
 
             var btn = document.getElementById('clearbtn');
-            var input = document.getElementById('thumbnail');
-            var img = document.getElementById('createimg');
 
             btn.style.display = 'inline';
 

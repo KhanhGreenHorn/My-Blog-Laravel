@@ -36,7 +36,11 @@
                     <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
                     @enderror
                 </div>
+                @if (isset($post->thumbnail))
                 <img id="updateimg" class="rounded-xl mb-2" width="100" src="{{ asset('storage/'. $post->thumbnail) }}">
+                @else
+                <img id="updateimg" class="rounded-xl mb-2" width="100">
+                @endif
             </div>
         </div>
 
