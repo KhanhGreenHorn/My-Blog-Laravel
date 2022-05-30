@@ -1,0 +1,16 @@
+@props(['comment'])
+<!-- Trigger the Modal -->
+<img id="myImg" src="img_snow.jpg" alt="Snow" style="width:100%;max-width:300px">
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- The Close Button -->
+    <span class="close">&times;</span>
+
+    <!-- Modal Content (The Image) -->
+    <img class="modal-content" id="img01" src="/images/illustration-1.png">
+
+    <!-- Modal Caption (Image Text) -->
+    <div id="caption"></div>
+</div>

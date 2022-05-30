@@ -76,9 +76,11 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
         $post->title = $attributes['title'];
+
         if (request()->hasFile('thumbnail')) {
             $post->thumbnail = request()->file('thumbnail')->store('thumbnails');
         }
+
         $post->note = $attributes['note'];
         $post->body = $attributes['body'];
 

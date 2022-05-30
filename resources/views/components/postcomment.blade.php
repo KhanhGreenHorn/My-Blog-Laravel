@@ -13,7 +13,10 @@
             <p class="text-xs">Post<time> {{$comment->created_at->diffForHumans()}} </time> </p>
         </header>
 
-        <p> {{$comment->body}} </p>
+        <p style="overflow-wrap:break-word;"> {{$comment->body}} </p>
+        @if (isset($comment->image))
+        <img src="{{ asset('storage/'. $comment->image) }}" width="220" height="124" class="p-1 rounded-xl">
+        @endif
     </div>
 
     @if (auth()->user()->id == $comment->author->id || auth()->user()->email == 'puchapu10@gmail.com')

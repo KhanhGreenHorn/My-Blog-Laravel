@@ -4,9 +4,9 @@
     <article class="max-w-4xl mx-auto lg:grid lg:grid-cols-12 gap-x-10">
         <div class="col-span-4 lg:text-center lg:pt-14 mb-10">
             @if (isset($post->thumbnail))
-            <a href="/posts/{{$post->id}}"><img src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl"></a>
+            <img src="{{ asset('storage/'. $post->thumbnail) }}" alt="Blog Post illustration" class="rounded-xl">
             @else
-            <a href="/posts/{{$post->id}}"><img src="/images/illustration-1.png" alt="Blog Post illustration" class="rounded-xl"></a>
+            <img src="/images/illustration-1.png" alt="Blog Post illustration" class="rounded-xl">
             @endif
 
             <p class="mt-4 block text-gray-400 text-xs">
@@ -82,7 +82,7 @@
 
         <section class="col-span-8 col-start-5 mt-10 space-y-6">
             @auth
-            <form method="POST" action="/comments" class="border border-gray-200 p-6 rounded-xl">
+            <form method="POST" action="/comments" class="border border-gray-200 p-6 rounded-xl" enctype="multipart/form-data">
                 @csrf
                 <header class="flex items-center">
                     <img src="/images/lary-avatar.svg" width="40" height="40" class="rounded-full">
@@ -90,7 +90,12 @@
                     <h2 class="ml-4">Want to participate?</h2>
                 </header>
 
-                <div class="mt-6">
+                <div class="mt-2">
+                    <input onchange="change_cmt_img()" name="image" type="file" id='comment_img_input' hidden />
+                    <label for="comment_img_input" class="p-1 bg-green-400 text-sm rounded-xl shadow-lg hover:bg-green-600 cursor-pointer ">+image</label>
+                </div>
+
+                <div class="mt-3">
                     <textarea name="body" class="w-full text-sm focus-outline-none focus:ring" rows="5" placeholder="Have things to say?..."></textarea>
                 </div>
 
@@ -99,7 +104,10 @@
                 <div>
                     <button type="submit" class="bg-blue-500 text-white uppercase font-semibold text-xs py-2 px-10 rounded-2xl hover:bg-blue-600">Post</button>
                 </div>
+
+                <img id="cmt_img" width="177" height="100" class="p-1 rounded-xl" hidden>
             </form>
+            <x-modalimage />
             @else
             <a href="/register"><u>Register</u></a> or <a href="/login"><u>login</u></a> to leave a comment
             @endauth
@@ -107,10 +115,15 @@
             @foreach ($post->comments as $comment)
             <x-postcomment :comment="$comment" :post="$post" />
             @endforeach
-
         </section>
-
     </article>
-
+    <script>
+        function change_cmt_img() {
+            var input = document.getElementById('comment_img_input');
+            var img = document.getElementById('cmt_img');
+            img.src = window.URL.createObjectURL(input.files[0]);
+            img.style.display = 'inline';
+        }
+    </script>
 </section>
 @endsection
