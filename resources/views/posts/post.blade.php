@@ -107,7 +107,13 @@
 
                 <img id="cmt_img" width="177" height="100" class="p-1 rounded-xl" hidden>
             </form>
-            <x-modalimage />
+
+            <div class="grid grid-cols-3 gap-1">
+                @for ($i = 0; $i
+                < 7; $i++) <x-modalimage />
+                @endfor
+            </div>
+
             @else
             <a href="/register"><u>Register</u></a> or <a href="/login"><u>login</u></a> to leave a comment
             @endauth
@@ -116,6 +122,7 @@
             <x-postcomment :comment="$comment" :post="$post" />
             @endforeach
         </section>
+
     </article>
     <script>
         function change_cmt_img() {
